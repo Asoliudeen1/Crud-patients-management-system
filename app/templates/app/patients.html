@@ -9,8 +9,8 @@
 
     <form>
         <div class="input-group input-group-sm mb-3 mt-4">
-            <input name="q" type="text" class="form-control" placeholder="Search for">
-            <button class="btn- btn-secondary"><i class="fas fa-search"></i></button>
+            <input name="q" type="text" class="form-control" placeholder="Search for" value="{{request.GET.q}}">
+            <button class="btn btn-secondary"><i class="fas fa-search"></i></button>
             <a href="{% url 'patients' %}" class="btn btn-dark" style="margin-left: 2px;"><i class="fas fa-sync-alt"></i></a>
 
         </div>
@@ -20,13 +20,13 @@
         <table class="table table-bordered table-sm mt-4" style="text-align: center; font-size: 14px;">
             <thead class="table-secondary">
                 <tr>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th>Registered</th>
-                    <th>Action</th>
+                    <th style="width: 21%;">Name</th>
+                    <th style="width: 15%;">Phone</th>
+                    <th style="width: 21%;">Email</th>
+                    <th style="width: 8%;">Age</th>
+                    <th style="width: 7%;">Gender</th>
+                    <th style="width: 18%;">Registered</th>
+                    <th style="width: 10%;" colspan="2">Actions</th>
                 </tr>
             </thead>
             {% for patient in patients %}
@@ -38,7 +38,16 @@
                <td>{{patient.age}}</td>
                <td>{{patient.gender}}</td>
                <td>{{patient.created_at | date:'m/d/Y'}}</td>
-               <td>edit | delete</td>
+               <td>
+                    <a class="btn btn-primary" href="#" title="Edit Patient">
+                        <i class="fas fa-pen"></i>
+                    </a>
+               </td>
+               <td>
+                <a class="btn btn-secondary" href="{% url 'delete-patient' patient.id %}" title="Delete Patient">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+           </td>
 
             </tr>
             {% endfor %}
@@ -73,5 +82,17 @@
         </ul>
         {% endif %}
     </nav>
+
+
+    <!-- Messages -->
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+            var m = "{{message}}";
+            swal("Perfect !", m, "success")
+        </script>
+        {% endif %}
+    {% endfor %}
 </div>
 {% endblock content %}

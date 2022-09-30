@@ -1,6 +1,7 @@
 
 import email
 from multiprocessing import context
+import re
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -81,3 +82,10 @@ def Patients(request):
         'patients': patients,
     }
     return render(request, 'app/patients.html', context)
+
+@login_required(login_url='login')
+def deletePatient(request, patient_id):
+    patient = Patient.objects.get(id=patient_id)
+    patient.delete()
+    messages.success(request, "Patient deleted successfully!")
+    return redirect('patients')

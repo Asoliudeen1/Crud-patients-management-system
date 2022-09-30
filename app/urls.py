@@ -12,5 +12,6 @@ urlpatterns = [
         #CRUD
         path('patients/', views.Patients, name='patients'),
         path('add_patient/', views.addPatient, name='add-patient'),
+        path('delete_patient/<int:patient_id>', views.deletePatient, name='delete-patient'),
         
 ]
