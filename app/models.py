@@ -15,7 +15,7 @@ class Patient(models.Model):
     age = models.CharField(max_length=100)
     gender = models.CharField(max_length=100, null=True, choices=GENDER)
     description = models.TextField(max_length=200, blank=True, null=True)
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

@@ -2,10 +2,15 @@
     <nav class="navbar navbar-expand-ld navbar-dark bg-dark">
         <div class="col-sm">
             <a class="navbar-brand flex-grow-1" style="text-align: center; color: white; margin-left:25px;">
-                {% if request.user.is_authenticated %}
+                
+                {% if '/patients/' in request.path %}
                 <i class="fas fa-briefcase-medical"></i>&nbsp;&nbsp; Patients
                 {% elif '/loginpage/' in request.path %}
                 <i class="fas fa-lock"></i>&nbsp;&nbsp; Login
+                {% elif '/edit_patient/' in request.path %}
+                <i class="fas fa-lock"></i>&nbsp;&nbsp; Edit Patient
+                {% elif '/add_patient/' in request.path %}
+                <i class="fas fa-lock"></i>&nbsp;&nbsp; Add Patient
                 {% else %}
                 <i class="fas fa-briefcase-medical"></i>&nbsp;&nbsp; Hospital
                 {% endif %}

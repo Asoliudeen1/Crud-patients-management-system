@@ -1,7 +1,3 @@
-
-import email
-from multiprocessing import context
-import re
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -49,7 +45,12 @@ def logoutpage(request):
 @login_required(login_url='login')
 def addPatient(request):
     if request.method == 'POST':
-        if request.POST.get('name') and request.POST.get('phone') and request.POST.get('email') and request.POST.get('age') and request.POST.get('gender') and (request.POST.get('description') or request.POST.get('description') is ''):
+        if request.POST.get('name') and \
+                request.POST.get('phone') \
+                and request.POST.get('email') \
+                and request.POST.get('age') \
+                and request.POST.get('gender') \
+                or request.POST.get('description'):
             patient = Patient()
             patient.name = request.POST.get('name')
             patient.phone = request.POST.get('phone')
@@ -89,3 +90,25 @@ def deletePatient(request, patient_id):
     patient.delete()
     messages.success(request, "Patient deleted successfully!")
     return redirect('patients')
+
+
+def editPatient(request, patient_id):
+    patient = Patient.objects.get(id=patient_id)
+
+    if request.method == 'POST':
+        patient = Patient.objects.get(id= request.POST.get('id'))
+        if patient != None:
+
+            patient.name = request.POST.get('name')
+            patient.phone = request.POST.get('phone')
+            patient.email = request.POST.get('email')
+            patient.age = request.POST.get('age')
+            patient.gender = request.POST.get('gender')
+            patient.description = request.POST.get('description')
+            patient.save()
+            messages.success(request, 'Patient updated succesfully')
+            return redirect('patients')
+    else:
+
+        context = {'patient': patient,}
+        return render(request, 'app/edit_patient.html', context)

@@ -1,0 +1,33 @@
+{% extends 'app/add_patients.html' %}
+
+
+<!-- title from add_patients.html -->
+{% block title %}Registered at: <span class="text-primary">{{patient.created_at | date:'m/d/Y (H:i)'}}</span> {% endblock title %}
+
+
+<!-- EXTENDS ADD Button -->
+{% block btn-content %} <i class="fas fa-hdd"></i>&nbsp; Update {% endblock btn-content %}
+
+<!-- EXTENDS RESET Button -->
+{% block btn-reset %} 
+<button type="reset" class="btn btn-secondary btn-sm"><i class="fas fa-sync-alt"></i>&nbsp; Reset </button>
+{% endblock btn-reset %}
+
+
+<!-- EXTENDS form action -->
+{% block action %} action="{% url 'edit-patient' patient.id %}" {% endblock action %}
+
+<!-- Extends all INPUTS from add_patients.html -->
+{% block value-name %} value="{{patient.name}}" {% endblock value-name %}
+{% block value-phone %} value="{{patient.phone}}" {% endblock value-phone %}
+{% block value-email %} value="{{patient.email}}" {% endblock value-email %}
+{% block value-age %} value="{{patient.age}}" {% endblock value-age %}
+{% block value-gender %} value="{{patient.gender}}" {% endblock value-gender %}
+
+{% block option %}<option value="" style="background-color: #d3d3d3; color:#007bff;">{{patient.gender}}</option>{% endblock option %}
+
+{% block value-description %}{{patient.description}}{% endblock value-description %}
+
+
+<!-- INPUT ID PASSED HERE -->
+{% block id-hidden %}<input type="text" name="id" value="{{patient.id}}" hidden>{% endblock id-hidden %} 
