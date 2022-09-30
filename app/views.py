@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from .models import Patient
@@ -8,11 +9,12 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 
 
-@login_required(login_url='login')
+
 def home(request):
     return render(request, 'app/home.html')
 
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def loginPage(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -40,8 +42,10 @@ def loginPage(request):
 
 def logoutpage(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
+    
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login')
 def addPatient(request):
     if request.method == 'POST':
@@ -65,6 +69,7 @@ def addPatient(request):
         return render(request, 'app/add_patients.html')
 
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login')
 def Patients(request):
     if 'q' in request.GET:
@@ -84,6 +89,7 @@ def Patients(request):
     }
     return render(request, 'app/patients.html', context)
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login')
 def deletePatient(request, patient_id):
     patient = Patient.objects.get(id=patient_id)
@@ -92,6 +98,8 @@ def deletePatient(request, patient_id):
     return redirect('patients')
 
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='login')
 def editPatient(request, patient_id):
     patient = Patient.objects.get(id=patient_id)
 
