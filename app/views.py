@@ -1,11 +1,14 @@
 
+import email
+from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from .models import Patient
 from django.contrib import messages
-
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 @login_required(login_url='login')
@@ -32,7 +35,7 @@ def loginPage(request):
         if user is not None:
             login(request, user)
 
-            return redirect('home') 
+            return redirect('patients') 
         else:
             pass
             #messages.error(request, 'Username or Password does not exist')
@@ -55,6 +58,26 @@ def addPatient(request):
             patient.description = request.POST.get('description')
             patient.save()
             messages.success(request, 'Patient added succesfully')
-            return redirect('home')
+            return redirect('patients')
     else:
         return render(request, 'app/add_patients.html')
+
+
+@login_required(login_url='login')
+def Patients(request):
+    if 'q' in request.GET:
+        q = request.GET['q']
+        patients = Patient.objects.filter(
+            Q(name__icontains=q) | Q(phone=q) | Q(email=q) | Q(age=q) | Q(gender=q) | Q(description=q)
+        ).order_by('-created_at')
+    else:
+        patients = Patient.objects.all().order_by('-created_at')
+
+    paginator = Paginator(patients, 10)
+    page = request.GET.get('page')
+    patients = paginator.get_page(page)
+
+    context = {
+        'patients': patients,
+    }
+    return render(request, 'app/patients.html', context)

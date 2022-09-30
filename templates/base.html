@@ -29,6 +29,8 @@
         <title>login</title>
     {% elif request.path == '/add_patient/'  %}   
         <title>Add patient</title> 
+    {% elif '/patients/' in request.path %}
+        <title>Patients</title>
     {% else %}
         <title>home</title>
     {% endif %}

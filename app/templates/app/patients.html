@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <br><br>
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'add-patient' %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add Patient</a>
+    </div>
+
+    <form>
+        <div class="input-group input-group-sm mb-3 mt-4">
+            <input name="q" type="text" class="form-control" placeholder="Search for">
+            <button class="btn- btn-secondary"><i class="fas fa-search"></i></button>
+            <a href="{% url 'patients' %}" class="btn btn-dark" style="margin-left: 2px;"><i class="fas fa-sync-alt"></i></a>
+
+        </div>
+    </form>
+
+    <center>
+        <table class="table table-bordered table-sm mt-4" style="text-align: center; font-size: 14px;">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Registered</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            {% for patient in patients %}
+            <tr>
+               
+               <td>{{patient.name}}</td>
+               <td>{{patient.phone}}</td>
+               <td>{{patient.email}}</td>
+               <td>{{patient.age}}</td>
+               <td>{{patient.gender}}</td>
+               <td>{{patient.created_at | date:'m/d/Y'}}</td>
+               <td>edit | delete</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </center>
+
+    <!-- Pagination -->
+    <nav class="mt-4" aria-label="Page navigation example">
+        {% if patients.has_other_pages %}
+        <ul class="pagination justify-content-left">
+            {% if patients.has_previous %}
+            <a href="?page=1" class="btn btn-outline-primary mb-4" style="width: 60px; border-radius: 1px; border: 1px solid #d3d3d3;">First</a>
+            <li class="page-item"><a class="page-link" href="?page={{ patients.previous_page_number }}"><i class="fas fa-angle-double-left"></i></a></li>
+            {% else %}
+            <li class="page-item disabled"></li>
+            {% endif %}
+
+            {% for i in patients.paginator.page_range %}
+            {% if patients.number == i %}
+            <li class="page-item active"><span class="page-link">{{i}}<span class="sr-only"></span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if patients.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ patients.next_page_number }}"><i class="fas fa-angle-double-right"></i></a></li>
+            <a href="?page={{ patients.paginator.num_pages }}" class="btn btn-outline-primary mb-4" style="width: 60px; border-radius: 1px; border: 1px solid #d3d3d3; border-left: none;">Last</a>
+            {% else %}
+            <li class="page-item disabled"></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </nav>
+</div>
+{% endblock content %}
