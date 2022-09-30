@@ -1,0 +1,24 @@
+<header>
+    <nav class="navbar navbar-expand-ld navbar-dark bg-dark">
+        <div class="col-sm">
+            <a class="navbar-brand flex-grow-1" style="text-align: center; color: white; margin-left:25px;">
+                {% if request.user.is_authenticated %}
+                <i class="fas fa-briefcase-medical"></i>&nbsp;&nbsp; Patients
+                {% elif '/loginpage/' in request.path %}
+                <i class="fas fa-lock"></i>&nbsp;&nbsp; Login
+                {% else %}
+                <i class="fas fa-briefcase-medical"></i>&nbsp;&nbsp; Hospital
+                {% endif %}
+            </a>
+        </div>
+
+        <div class="col-sm">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn btn-outline-info border-light btn-sm" id="btn-nav">Logout</a>
+            <a href="{% url 'add-patient' %}" class="btn btn-outline-info border-light btn-sm" style="width: 130px;" id="btn-nav">Add Patient</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn btn-outline-info border-light btn-sm" id="btn-nav">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+</header>

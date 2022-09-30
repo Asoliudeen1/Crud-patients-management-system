@@ -1,0 +1,47 @@
+/* --------------------------------
+# START CONFIGURATION
+---------------------------------- */
+
+htnl,
+body {
+    height: 100%;
+    margin: 0;
+    max-width: 100%;
+
+    
+}
+
+/* --------------------------------
+# NAVBAR
+---------------------------------- */
+#btn-nav {
+    width: 90px;
+    float: right;
+    margin-right: 25px;
+    
+}
+
+/* --------------------------------
+# FOOTER
+---------------------------------- */
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -50px;
+}
+
+#footer{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 50px;
+    font-size: 13px;
+}
+
+
+/* --------------------------------
+# PATIENT
+---------------------------------- */
+.side-label{
+    width: 80px;
+}
+
